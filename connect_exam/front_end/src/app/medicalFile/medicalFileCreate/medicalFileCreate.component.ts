@@ -15,13 +15,13 @@ export class MedicalFileCreateComponent implements OnInit {
   medical: MedicalFile [] = [];
   medicalForm: FormGroup = new FormGroup({
     id: new FormControl(),
-    medicalFileCode: new FormControl(),
-    patientCode: new FormControl(),
-    patientName: new FormControl(),
-    startDay: new FormControl(),
-    endDay: new FormControl(),
+    codePatient: new FormControl(),
+    codePeoplePatient: new FormControl(),
+    namePeoplePatient: new FormControl(),
+    dayStart: new FormControl(),
+    dayEnd: new FormControl(),
     reason: new FormControl(),
-    treatments: new FormControl(),
+    method: new FormControl(),
     doctor: new FormControl(),
   });
 

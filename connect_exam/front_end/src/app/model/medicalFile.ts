@@ -1,11 +1,11 @@
 export interface MedicalFile {
   id?: number;
-  codePatient?: string;
-  codePeoplePatient?: string;
-  namePeoplePatient?: string;
-  dayStart?: string;
-  dayEnd?: string;
+  medicalFileCode?: string;
+  patientCode?: string;
+  patientName?: string;
+  startDay?: string;
+  endDay?: string;
   reason?: string;
-  method?: string;
+  treatments?: string;
   doctor?: string;
 }
