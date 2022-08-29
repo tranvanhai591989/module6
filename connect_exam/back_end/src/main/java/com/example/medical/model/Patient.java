@@ -3,25 +3,26 @@ package com.example.medical.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String codePeoplePatient;
+
+    private String name;
+    @OneToMany(mappedBy = "patient")
     @JsonBackReference
-    @OneToMany(mappedBy = "codePeoplePatient")
-    List<Patient> patientList;
+    private Set<MedicalFile> medicalFileList;
 
     public Patient() {
     }
 
-    public Patient(int id, String codePeoplePatient, List<Patient> patientList) {
+    public Patient(int id, String name, Set<MedicalFile> medicalFileList) {
         this.id = id;
-        this.codePeoplePatient = codePeoplePatient;
-        this.patientList = patientList;
+        this.name = name;
+        this.medicalFileList = medicalFileList;
     }
 
     public int getId() {
@@ -32,19 +33,19 @@ public class Patient {
         this.id = id;
     }
 
-    public String getCodePeoplePatient() {
-        return codePeoplePatient;
+    public String getName() {
+        return name;
     }
 
-    public void setCodePeoplePatient(String codePeoplePatient) {
-        this.codePeoplePatient = codePeoplePatient;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Patient> getPatientList() {
-        return patientList;
+    public Set<MedicalFile> getMedicalFileList() {
+        return medicalFileList;
     }
 
-    public void setPatientList(List<Patient> patientList) {
-        this.patientList = patientList;
+    public void setMedicalFileList(Set<MedicalFile> medicalFileList) {
+        this.medicalFileList = medicalFileList;
     }
 }

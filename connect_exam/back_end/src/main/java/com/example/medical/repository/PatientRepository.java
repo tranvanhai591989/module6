@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PatientRepository extends JpaRepository<Patient,Integer> {
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(value = "select * from patient  ", nativeQuery = true)
     List<Patient> getAll();
 }

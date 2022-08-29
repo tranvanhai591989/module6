@@ -1,40 +1,45 @@
-package com.example.medical.model;
+package com.example.medical.dto;
 
-import javax.persistence.*;
+import com.example.medical.model.Patient;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
-@Entity
-public class MedicalFile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+
+public class MedicalFileDto implements Validator {
     private int id;
+    @NotBlank
+    @Pattern(regexp = "^(BA-)+d{3}$")
     private String medicalFileCode;
+    @NotBlank
+    @Pattern(regexp = "^(BN-)+d{3}$")
     private String patientCode;
-    @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patient;
+    @NotBlank
     private String startDay;
+    @NotBlank
     private String endDay;
-
+    @NotBlank
+    @Pattern(regexp = "[A-Z]+[a-z]?$")
     private String reason;
+    @NotBlank
+    @Pattern(regexp = "[A-Z]+[a-z]?$")
     private String treatment;
+    @NotEmpty
+    @Pattern(regexp = "^([\\p{Lu}][\\p{Ll}]{1,8})(\\s([\\p{Lu}]|[\\p{Lu}][\\p{Ll}]{1,10})){0,5}$", message = "Wrong format Name")
     private String doctor;
 
-    public MedicalFile() {
+    public MedicalFileDto() {
     }
 
-    public MedicalFile(int id, String medicalFileCode, String patientCode,
-                       Patient patient, String startDay, String endDay,
-                       String reason, String treatment,
-                       String doctor) {
-        this.id = id;
-        this.medicalFileCode = medicalFileCode;
-        this.patientCode = patientCode;
-        this.patient = patient;
-        this.startDay = startDay;
-        this.endDay = endDay;
-        this.reason = reason;
-        this.treatment = treatment;
-        this.doctor = doctor;
+    public void validate(MedicalFileDto medicalFileDto, BindingResult bindingResult) {
     }
 
     public int getId() {
@@ -107,5 +112,16 @@ public class MedicalFile {
 
     public void setDoctor(String doctor) {
         this.doctor = doctor;
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        MedicalFileDto medicalFileDto = (MedicalFileDto) target;
+
     }
 }

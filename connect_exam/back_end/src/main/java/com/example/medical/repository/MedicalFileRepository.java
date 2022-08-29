@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 import java.util.List;
 
-public interface MedicalRepository extends JpaRepository<MedicalFile, Integer> {
+public interface MedicalFileRepository extends JpaRepository<MedicalFile, Integer> {
 
     @Query(value = "select * from medical_file", nativeQuery = true)
     List<MedicalFile> getAll();
@@ -17,24 +17,25 @@ public interface MedicalRepository extends JpaRepository<MedicalFile, Integer> {
     @Transactional
     @Modifying
     @Query(value = "insert into medical_file (medical_file_code,patient_code,patient_id,start_day,end_day,reason,treatment,doctor) " +
-            "values (:medicalFileCode,:patientCode,:patient,:startDay,:endDay,:reason,:treatment,:doctor", nativeQuery = true)
-    void save(@Param("medicalFileCode") String medicalFileCode, @Param("patientCode") String patientCode,
-              @Param("patient") String patient, @Param("startDay") String startDay, @Param("endDay") String endDay,
-              @Param("reason") String reason, @Param("treatment") String treatment, @Param("doctor") String doctor);
+            "values (:medicalFileCode,:patientCode,:patient,:startDay,:endDay,:reason,:treatment,:doctor)", nativeQuery = true)
+    void saveMedicalFile(@Param("medicalFileCode") String medicalFileCode, @Param("patientCode") String patientCode,
+                         @Param("patient") int patient, @Param("startDay") String startDay, @Param("endDay") String endDay,
+                         @Param("reason") String reason, @Param("treatment") String treatment, @Param("doctor") String doctor);
 
     @Transactional
     @Modifying
-    @Query(value = "update medical_file set patient_id=:patient, " +
-            "start_day=:startDay,end_day=:endDay,reason=:reason,treatment=:treatment,doctor=:doctor where id=:id", nativeQuery = true)
-    void update(@Param("codePatient") String codePatient, @Param("codePeoplePatient") String codePeoplePatient,
-                @Param("patient") String namePeoplePatient, @Param("startDay") String startDay, @Param("endDay") String endDay,
-                @Param("reason") String reason, @Param("treatment") String method, @Param("doctor") String doctor, @Param("id") int id);
+    @Query(value = "update medical_file set patient_id=:patientId," +
+            " start_day=:startDay,end_day=:endDay,reason=:reason,treatment=:treatment,doctor=:doctor where id=:id", nativeQuery = true)
+    void update(@Param("patientId") int patientId, @Param("startDay") String startDay, @Param("endDay") String endDay,
+                @Param("reason") String reason, @Param("treatment") String treatment, @Param("doctor") String doctor, @Param("id") int id);
 
     @Query(value = "select * from medical_file  where id=:id", nativeQuery = true)
     MedicalFile findById(@Param("id") int id);
 
-    @Query(value = "select * from medical_file where patient_id like :name", nativeQuery = true)
-    List<MedicalFile> findByName(@Param("name") String name);
+    @Query(value = "select  medical_file.* from medical_file " +
+            "join patient on patient.id = medical_file.patient_id " +
+            "where patient_code like :patientCode and medical_file_code like :medicalFileCode and patient.id like :patientName", nativeQuery = true)
+    List<MedicalFile> findByName(@Param("patientCode") String patientCode, @Param("medicalFileCode") String medicalFileCode, @Param("patientName")String patientName);
 
     @Transactional
     @Modifying

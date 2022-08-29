@@ -1,7 +1,7 @@
 package com.example.medical.service.impl;
 
 import com.example.medical.model.MedicalFile;
-import com.example.medical.repository.MedicalRepository;
+import com.example.medical.repository.MedicalFileRepository;
 import com.example.medical.service.MedicalFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MedicalServiceImpl implements MedicalFileService {
+public class MedicalFileServiceImpl implements MedicalFileService {
 
     @Autowired
-    private MedicalRepository medicalRepository;
+    private MedicalFileRepository medicalRepository;
 
     @Override
     public List<MedicalFile> getAll() {
@@ -20,8 +20,8 @@ public class MedicalServiceImpl implements MedicalFileService {
     }
 
     @Override
-    public List<MedicalFile> findByName(String name) {
-        return medicalRepository.findByName(name);
+    public List<MedicalFile> findByName(String patientCode, String medicalFileCode, String patientName) {
+        return medicalRepository.findByName("%" + patientCode + "%", "%" + medicalFileCode + "%","%" + patientName + "%");
     }
 
     @Override
@@ -30,16 +30,17 @@ public class MedicalServiceImpl implements MedicalFileService {
     }
 
     @Override
-    public void save(MedicalFile medical) {
-        medicalRepository.save(medical);
+    public void save(MedicalFile medicalFile) {
+        medicalRepository.save(medicalFile);
+//        medicalRepository.saveMedicalFile(
+//                medicalFile.getMedicalFileCode(), medicalFile.getPatientCode(), medicalFile.getPatient().getId(),
+//                medicalFile.getStartDay(), medicalFile.getEndDay(), medicalFile.getReason(), medicalFile.getTreatment(), medicalFile.getDoctor());
     }
 
     @Override
-    public void update(int id,MedicalFile medical) {
+    public void update(int id, MedicalFile medical) {
         medicalRepository.update(
-                medical.getMedicalFileCode(),
-                medical.getPatientCode(),
-                medical.getPatient().getName(),
+                medical.getPatient().getId(),
                 medical.getStartDay(),
                 medical.getEndDay(),
                 medical.getReason(),
