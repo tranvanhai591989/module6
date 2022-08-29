@@ -1,8 +1,8 @@
 package com.example.medical.controller;
 
-import com.example.medical.model.Medical;
+import com.example.medical.model.MedicalFile;
 import com.example.medical.model.Patient;
-import com.example.medical.service.MedicalServiceImpl;
+import com.example.medical.service.impl.MedicalServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class MedicalController {
 
     //Hiển thị
     @GetMapping("/list")
-    public ResponseEntity<List<Medical>> getList() {
-        List<Medical> patientList = medicalService.getAll();
+    public ResponseEntity<List<MedicalFile>> getList() {
+        List<MedicalFile> patientList = medicalService.getAll();
         if (patientList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -29,8 +29,8 @@ public class MedicalController {
 
     //Tìm theo id
     @GetMapping("find/{id}")
-    public ResponseEntity<Medical> findById(@PathVariable("id") int id) {
-        Medical medical = medicalService.findById(id);
+    public ResponseEntity<MedicalFile> findById(@PathVariable("id") int id) {
+        MedicalFile medical = medicalService.findById(id);
         if (medical == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -39,14 +39,14 @@ public class MedicalController {
 
     //Thêm mới
     @PostMapping("/create")
-    public ResponseEntity<Medical> create(@RequestBody Medical medical) {
+    public ResponseEntity<MedicalFile> create(@RequestBody MedicalFile medical) {
         medicalService.save(medical);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //Chỉnh Sửa
     @PutMapping("update/{id}")
-    public ResponseEntity<Medical> update(@PathVariable("id") int id, @RequestBody Medical medical) {
+    public ResponseEntity<MedicalFile> update(@PathVariable("id") int id, @RequestBody MedicalFile medical) {
         if (medical == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -57,7 +57,7 @@ public class MedicalController {
     //Xóa
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Patient> delete(@PathVariable("id") int id) {
-        Medical medical = medicalService.findById(id);
+        MedicalFile medical = medicalService.findById(id);
         if (medical == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -65,9 +65,9 @@ public class MedicalController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("search/{name}")
-    public ResponseEntity<List<Medical>> search(@PathVariable("name") String name) {
-        List<Medical> medicalList = medicalService.findByName(name);
-        List<Medical> medicalLists = medicalService.getAll();
+    public ResponseEntity<List<MedicalFile>> search(@PathVariable("name") String name) {
+        List<MedicalFile> medicalList = medicalService.findByName(name);
+        List<MedicalFile> medicalLists = medicalService.getAll();
         if (medicalList == null) {
             return new ResponseEntity<>(medicalLists, HttpStatus.NO_CONTENT);
         }
