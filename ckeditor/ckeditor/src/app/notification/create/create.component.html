@@ -1,0 +1,25 @@
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+
+<div class="container">
+  <div class="row formRow">
+    <form class="col-lg-6 formRow_create" method="post">
+      <div class="mb-3 formRow_create_title">
+        <h4><b>Thêm mới thông báo</b></h4>
+      </div>
+      <form [formGroup]="notificationForm" (ngSubmit)="submit()" *ngIf="notificationForm">
+        <hr>
+        <div class="formRow_create_content">
+          <div class="mb-3">
+            <label class="form-label">Nội dung </label>
+            <ckeditor [editor]='editor' formControlName="content"></ckeditor>
+          </div>
+
+          <div class="button">
+            <input class="btn btn-success mb-2 ml-4 m-lg-3" type="submit" value="Save">
+            <a class="btn btn-secondary mb-2 ml-4 m-lg-3" routerLink="/" role="button">Exit</a>
+          </div>
+        </div>
+      </form>
+    </form>
+  </div>
+</div>

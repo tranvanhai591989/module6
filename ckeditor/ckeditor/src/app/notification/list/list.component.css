@@ -1,0 +1,6 @@
+.hide_content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: -moz-pre-wrap;
+  width:800px
+}
